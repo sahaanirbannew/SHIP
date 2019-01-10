@@ -1,0 +1,18 @@
+name: "Make the Liver Great Again"
+navbar:
+  title: "SHIP"
+  left:
+    - text: "Home"
+      href: home.html
+    - text: "Exploring the Data"
+      href: explor.html
+    - text: "Data Pre processing"
+      href: preprocess.html
+    - text: "Feature Selection Methods"
+      href: featureselections.html
+    - text: "Final Analysis"
+      href: analysis.html  
+      
+output:   
+    html_document:
+        css: style.css

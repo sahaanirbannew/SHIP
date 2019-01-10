@@ -1,0 +1,35 @@
+---
+title: "Make the Liver Great Again."
+author: "Mangaraj & Saha" 
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4 
+    toc_float:
+      collapsed: false
+      smooth_scroll: false 
+---
+
+"Make the Liver Great Again" is one fancy name given to the COHORT Analysis on the SHIP data.<br />This is a 2-member team of Subhashree Mangaraj (Matriculation number: ) and Anirban Saha (Matriculation number: 220835)<br />
+
+
+###**Overview and Motivation. **<br />
+
+The SHIP data set was provided to us by the supervisor, Mr. Uli Niemann. Previously, Uli has worked on this dataset with Mr. H. Volzke, Mr. Jens-Peter Kuhn, Prof. M. Spiliopoulou. <br />
+The Study of Health in Pomerania (SHIP) dataset has data of over four thousand residents of Pomerania in Germany, in the age group 20 - 79. Data were collected in three phases: <br />
+* Phase 1 [1997-2001] with 4308 participants.<br /> 
+* Phase 2 [2002-2006] with 3300 participants.<br />
+* Phase 3 [2008-2012] with 2333 participants.<br />
+It has 4308 rows and 400 columns; the target variable being liver fat. It has 578 labelled data. <br />
+We’ve used this dataset to explore various functionalities of R and R packages, learning the different phases of data science in detail and acquiring skills of handling data, modelling and visualising it using the R programming language. 
+
+<br />
+
+###**Related Works: **<br />
+Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer. <br />
+
+  **Uli Niemann's work:**<br />
+Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer. <br />
+
+###**About the Data**<br />
+Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer. More at [Exploratory Data Analysis](explor.html)
