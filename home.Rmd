@@ -25,11 +25,6 @@ We’ve used this dataset to explore various functionalities of R and R packages
 
 <br />
 
-###**Related Works: **<br />
-Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer. <br />
-
-  **Uli Niemann's work:**<br />
-Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer. <br />
+###**Related Works: **<br /> 
 
 ###**About the Data**<br />
-Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer.Here comes the answer. More at [Exploratory Data Analysis](explor.html)

@@ -10,26 +10,34 @@ output:
       smooth_scroll: false 
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+###Introduction:
+Data preprocessing phase is an important phase in a data science project. Often we do not have full control over collection of data and the data that is given to us has irregularities such as missing values, is out of range or is not in the proper format fit for further processing. These are just a few examples of irregularities that can be found in the dataset. <br />
 
-## R Markdown
+During the data preprocessing phase, we take care of such irregularities and make the data fit for further processing and analysis. <br />
+<br />
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+**Selection of instances.**<br /> 
+We are working on the SHIP Data, which has 4308 instances and 400 attributes to each instance, of which 578 were labelled data. Since we are do supervised learning, we are using only the labelled data. <br />
+<br />
+**Removal of obviously unrelated columns.**<br />
+8 columns were removed because they logically do not contribute to the target variable. The list of the fields are given below: <br />
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
-```
+**Removal of attributes without requisite amount of data. **<br />
+We removed 52 attributes because more than 5% of the values are missing. <br />
 
-## Including Plots
+**Removal of remaining Missing Values.**
 
-You can also embed plots, for example:
+We removed the missing values for every attribute (columns). 
+The attributes have either categorical values assigned to them or numeric values. 
+For Categorical Data: We assigned “None” in place of the missing value. 
+For Numeric Data: We used the MICE package and assign the mean of the column to the missing value. 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+<br />
+**At this point, the number of attributes of the dataset is 340. **
+<br />
+**Further steps: **
+Assign categorical value to the target variable. Assign 1 if value of liver_fat is 10 or more than 10, else assign 0. 
+Convert integer type values to numeric. 
+<br />
+**Output of this phase: imputed.rds**
