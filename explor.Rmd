@@ -85,7 +85,7 @@ In the initial dataset, there would always be irregularities, one of the major b
 The below chart shows the columns which has missing data in the labelled dataset. 
 
 ```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<HandlingMissingValues>> 
+ <<HandlingMissingValues>> 
 plot_missing(df[1:15])
 plot_missing(df[16:30])
 plot_missing(df[31:50])
@@ -99,9 +99,9 @@ plot_missing(df[221:250])
 plot_missing(df[251:275])
 plot_missing(df[276:300])
 plot_missing(df[301:330])
-plot_missing(df[331:360])
-plot_missing(df[361:380])
-plot_missing(df[381:392])
+#plot_missing(df[331:360])
+#plot_missing(df[361:380])
+#plot_missing(df[381:392])
 ```
 
 ##### Factor Datatypes
@@ -124,6 +124,5 @@ After this removal of attributes, we have 360 columns left.
 
 ### MICE Imputation. 
 ```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<RunMice>> 
-dim(df)
+<<RunMice>>
 ```

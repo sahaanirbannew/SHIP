@@ -6,7 +6,6 @@
 #Motive of script: Data pre-processing and EDA                                  #
 #--------------------------------------------------------------------------------
 
-#---------------------Begin of:installing libraries----------------------------------
 ## @knitr InstallPackages
 #Installing packages. 
 pkg <- c("naniar", "dplyr", "imputeTS", "rio", "lattice",
@@ -23,10 +22,8 @@ new.pkg <- pkg[!(pkg %in% installed.packages())]
 if (length(new.pkg)) {
   install.packages(new.pkg, repos = "http://cran.rstudio.com")
 }
-#---------------------End of:installing libraries----------------------------------
 
 
-#---------------------Begin of:import libraries----------------------------------
 ## @knitr LoadPackages
 library(naniar)
 library(dplyr)
@@ -71,11 +68,9 @@ library(mice)
 library(backports)
 library(Boruta)
 library(DataExplorer)
-#---------------------End of:import libraries-----------------------------
 
+## @knitr LoadDataSet 
 
-#---------------------Begin of:loading of Dataset-------------------------
-## @knitr LoadDataSet
 #importing dataset from local drive
 dataset = readRDS('181121_ship.rds') 
 
@@ -86,21 +81,47 @@ df<-data.frame(dataset) #converting dataset into dataframe
 #We limit our scope to supervised learning only so keeping only labeled data
 df <- df[!is.na(df$liver_fat),]
 
+#temporary dataframe 
+df_tmp<-data.frame(dataset) 
+df_tmp <- df_tmp[!is.na(df_tmp$liver_fat),]
+
 #---------------------End of:loading of Dataset---------------------------
 
 #---------------------Begin of: Data Inspection---------------------------
-#graphical representation of data types of the columns in the dataset 
 ## @knitr DataInspection
-plot_str(df[1:20])
-plot_str(df[21:50])
-plot_str(df[51:100])
-plot_str(df[101:150])
-plot_str(df[151:200])
-plot_str(df[201:250])
-plot_str(df[251:300])
-plot_str(df[301:350])
-plot_str(df[351:400])
+
+#str(df)#structure of the dataset
+
+#summary(df)#summary of features of the dataset
+
+#summary(df$liver_fat)#Exploring target variable
+
+#dim(df)#number of rows and columns in dataset
+
+#graphical representation of data types of the columns in the dataset
+#plot_str(df[1:20])
+#plot_str(df[21:50])
+#plot_str(df[51:100])
+#plot_str(df[101:150])
+#plot_str(df[151:200])
+#plot_str(df[201:250])
+#plot_str(df[251:300])
+#plot_str(df[301:350])
+#plot_str(df[351:400])
+
+#Histogram representation distribution of target variable over data
+#hist(df$liver_fat,
+#main = "Histogram~Liver fat",
+#xlab = "Liver fat",
+#col =  "orange")
+
+#Box plot representing distribuyion of age over data
+#boxplot(df$age_ship_s0,
+#main = toupper("Boxplot of Age"),
+#ylab = "Age in years",
+#col = "magenta")
 #---------------------End of: Data Inspection-----------------------------
+
 #---------------------Begin of: Deleting irrelevant columns---------------
 
 #some columns contain date, time and id which logically do not contribute
@@ -119,10 +140,10 @@ df$zz_nr<-NULL
 df$exdate_ship0_s0<-NULL
 
 #---------------------End of: Deleting irrelevant columns-----------------
+
 #---------------------Begin of:Handling Missing Values--------------------
 
 ## @knitr HandlingMissingValues
-
 #listing names of columns with missing values
 list_na<-colnames(df)[apply(df, 2, anyNA)]
 #list(list_na)
@@ -137,7 +158,24 @@ x <- NROW(df)
 y <- (na_count/x) * 100
 na_countP<-round(y,2)
 #print(na_countP)
+
+#Graphical representation of percentage of missing values in each column
 #plot_missing(df[1:15])
+#plot_missing(df[16:30])
+#plot_missing(df[31:50])
+#plot_missing(df[51:70])
+#plot_missing(df[71:100])
+#plot_missing(df[101:130])
+#plot_missing(df[131:160])
+#plot_missing(df[161:190])
+#plot_missing(df[191:220])
+#plot_missing(df[221:250])
+#plot_missing(df[251:275])
+#plot_missing(df[276:300])
+#plot_missing(df[301:330])
+#plot_missing(df[331:360])
+#plot_missing(df[361:380])
+#plot_missing(df[381:392])
 
 #1. Check if column is factor or numerical
 #2. If Factor and column gender specific then introduce new category
@@ -146,7 +184,7 @@ na_countP<-round(y,2)
 #5. If Numeric, non- gender specific and % of missing value > 10%, -> discard
 #6. If Numeric, non- gender specific and % of missing valyes < 10% -> MICE imputation
 
-# Handling missing values for Factor type 
+# Handling missing values for Factor type #
 
 #Names of factor type Columns with missing values 
 w_fac<- which( sapply( df, class ) == 'factor' )
@@ -221,10 +259,10 @@ na_count_np<-round(y,2)
 #         menostat_w_s0,use_mht_w_s0
 
 #for menopaus_w_s0: 40-50 -> level 1; 51-60 -> level 2; Rest -> 'OG'
-df$menopaus_w_s0<-df_tmp$menopaus_w_s0
-df$menopaus_w_s0[is.na(df$menopaus_w_s0)] <- 999#putting temp var for missing values
+df$menopaus_w_s0<-df_tmp$menopaus_w_s0 #df$menopaus_w_s0 is num[1:886] df_tmp$menopaus_w_s0 is int[1:886]
+df$menopaus_w_s0[is.na(df$menopaus_w_s0)] <- 999 #putting temp var for missing values
 
-for(i in 1:nrow(df)){#dividing by range
+for(i in 1:nrow(df)){ #dividing by range
   if(df$menopaus_w_s0[i]  >= 40 && df$menopaus_w_s0[i]  <= 50){
     df$menopaus_w_s0[i] <- 1
   }
@@ -233,7 +271,7 @@ for(i in 1:nrow(df)){#dividing by range
   }
 }
 
-df$menopaus_w_s0<-as.character(df$menopaus_w_s0)#converting to character type
+df$menopaus_w_s0<-as.character(df$menopaus_w_s0) #converting to character type
 
 for(i in 1:nrow(df)){#replacing 999 with OG
   if(df$menopaus_w_s0[i]  == "999"){
@@ -241,13 +279,13 @@ for(i in 1:nrow(df)){#replacing 999 with OG
   }
 }
 
-df$menopaus_w_s0<-as.factor(df$menopaus_w_s0)#converting to factor type
+df$menopaus_w_s0<-as.factor(df$menopaus_w_s0) #converting to factor type
 
 #for testo_m_s0: 0-16 -> level 1; 16-37 -> level 2; Rest -> 'OG'
 #str(df$testo_m_s0)
 #summary(df$testo_m_s0)
 
-df$testo_m_s0[is.na(df$testo_m_s0)] <- 999#putting temp var for missing values
+df$testo_m_s0[is.na(df$testo_m_s0)] <- 999 #putting temp var for missing values
 
 for(i in 1:nrow(df)){#dividing by range
   if(df$testo_m_s0[i]  >= 0 && df$testo_m_s0[i]  <= 16){
@@ -298,8 +336,7 @@ df$dheas_m_s0<-as.factor(df$dheas_m_s0)#converting to factor type
 #str(df$testo_m_s1)
 #summary(df$testo_m_s1)
 
-
-df$testo_m_s1[is.na(df$testo_m_s1)] <- 999 #putting temp var for missing values
+df$testo_m_s1[is.na(df$testo_m_s1)] <- 999#putting temp var for missing values
 
 for(i in 1:nrow(df)){#dividing by range
   if(df$testo_m_s1[i]  >= 3 && df$testo_m_s1[i]  <= 27){
@@ -401,7 +438,7 @@ df$menostat_w_s0<-as.factor(df$menostat_w_s0)#converting to factor type
 #str(df$use_mht_w_s0)
 #summary(df$use_mht_w_s0)
 
-df$use_mht_w_s0[is.na(df$use_mht_w_s0)] <- 999 #putting temp var for missing values
+df$use_mht_w_s0[is.na(df$use_mht_w_s0)] <- 999#putting temp var for missing values
 
 for(i in 1:nrow(df)){#dividing by range
   if(df$use_mht_w_s0[i]  >= 0 && df$use_mht_w_s0[i]  <= 0.5){
@@ -447,7 +484,7 @@ for(i in 1:nrow(df)){#replacing 999 with OG
 
 df$menopaus_w_s1<-as.factor(df$menopaus_w_s1)#converting to factor type
 
-#Deleting columns with more than 10% missing values after processing till now
+#Deleting columns with more than 10% misiing values after processing till now
 
 #colnames: "quick_s0","alb_u_s0","il6_s0","ige_s0","fs_s0","flag","asat_s_s1","ggt_s_s1",
 #           "lip_s_s1","fs_s1","age_ship_s2","alkligt_s2","sleeph_s2","som_bmi_s2",
@@ -465,68 +502,181 @@ misscol5<- c("quick_s0","alb_u_s0","il6_s0","ige_s0","fs_s0","flag","asat_s_s1",
 
 #deleting the numerical columns with more than 5% missing values
 df<-df[,-which(names(df) %in% misscol5)]
-
 #checking the column size
-ncol(df)
+#ncol(df)
 
-#Imputing columns with MICE for columns having less than 10% misiing values 
+
 ## @knitr RunMice
+#Imputing columns with MICE for columns having less than 10% misiing values 
 imputed1<-mice(df, m = 2, method = "mean", seed = 500)
 
+imputed <- complete(imputed1)
+sapply(imputed, function(x) sum(is.na(x)))
 
-#-------------------Descriptive Statistics--------------------------------
+#Calculating the number of NA values in a single column
+na_count_imp <-sapply(imputed, function(y) sum(length(which(is.na(y)))))
+na_count_imp <- data.frame(na_count_imp)
 
+#Calculating the percentage of NA values 
+x <- NROW(imputed)
+y <- (na_count_imp/x) * 100
+na_count_imp<-round(y,2)
+View(na_count_imp)
 
-#converting target variable to categorical
-#anything above 10 is positive and below 10 is negative
+#Deleting the column sc_sondercodes_s0
+imputed$sc_sondercodes_s0<-NULL
+
+#After mice imputation there are certain columns still having missing values
+#We would run MICE for the second imputation phase
+
+#checking what all columns still have missing values
+w_colnames_miss<-colnames(imputed)[apply(is.na(imputed), 2, any)]
+View(w_colnames_miss)
+#creating a matrix with the above columns
+df_mice<-imputed[w_colnames_miss]
+View(df_mice)
+imputed_m2<-mice(df_mice, m = 2, method = "mean", seed = 500)
+
+#creating the imputed matrix
+imputed2<-complete(imputed_m2)
+
+#checking what all columns still have missing values
+w_colnames_miss1<-colnames(imputed2)[apply(is.na(imputed2), 2, any)]
+View(w_colnames_miss1)
+
+#Calculating the number of NA values in a single column
+na_count2 <-sapply(imputed2, function(y) sum(length(which(is.na(y)))))
+na_count2 <- data.frame(na_count2)
+
+#Calculating the percentage of NA values 
+x <- NROW(imputed2)
+y <- (na_count2/x) * 100
+na_count2<-round(y,2)
+View(na_count2)
+
+View(imputed2)
+
+#After 2nd phase of MICE imputation the 4 columns still have some missing values and they
+#are missing at Random so for proceeding without rando values, we would discard those cols
+
+#replacing columns of imputed dataset with imputed columns from imputed2 and
+#deletinf the columns which still have missing values
+imputed$alkligt_s0<-imputed2$alkligt_s0
+imputed$hgb_s0<-imputed2$hgb_s0
+imputed$hba1c_s0<-imputed2$hba1c_s0
+imputed$fib_cl_s0<-imputed2$fib_cl_s0
+imputed$crea_s_s0<-imputed2$crea_s_s0
+imputed$hrs_s_s0<-imputed2$hrs_s_s0
+imputed$gluc_s_s0<-imputed2$gluc_s_s0
+imputed$asat_s_s0<-imputed2$asat_s_s0
+imputed$alat_s_s0<-imputed2$alat_s_s0
+imputed$ggt_s_s0<-imputed2$ggt_s_s0
+
+imputed$lip_s_s0<-imputed2$lip_s_s0
+imputed$chol_s_s0<-imputed2$chol_s_s0
+imputed$tg_s_s0<-imputed2$tg_s_s0
+imputed$hdl_s_s0<-imputed2$hdl_s_s0
+imputed$ldl_s_s0<-imputed2$ldl_s_s0
+imputed$lipo_a_s0<-imputed2$lipo_a_s0
+imputed$apoa1_s0<-imputed2$apoa1_s0
+imputed$apob_s0<-imputed2$apob_s0
+imputed$tsh_s0<-imputed2$tsh_s0
+imputed$ferri_s0<-imputed2$ferri_s0
+
+imputed$cdt_s0<-imputed2$cdt_s0
+imputed$jodid_u_s0<-imputed2$jodid_u_s0
+imputed$crea_u_s0<-imputed2$crea_u_s0
+imputed$hs_crp_s0<-imputed2$hs_crp_s0
+imputed$prl_s0<-imputed2$prl_s0
+imputed$igf1_s0<-imputed2$igf1_s0
+imputed$igfbp3_s0<-imputed2$igfbp3_s0
+imputed$udpdkrea_s0<-imputed2$udpdkrea_s0
+imputed$sd_volg_s0<-imputed2$sd_volg_s0
+imputed$avmean_s0<-imputed2$avmean_s0
+
+imputed$avmeanapp_s0<-imputed2$avmeanapp_s0
+imputed$stmean_s0<-imputed2$stmean_s0
+imputed$stmeanapp_s0<-imputed2$stmeanapp_s0
+imputed$zaehne_s0<-imputed2$zaehne_s0
+imputed$age_ship_s1<-imputed2$age_ship_s1
+imputed$alkligt_s1<-imputed2$alkligt_s1
+imputed$som_bmi_s1<-imputed2$som_bmi_s1
+imputed$som_tail_s1<-imputed2$som_tail_s1
+imputed$som_huef_s1<-imputed2$som_huef_s1
+imputed$hgb_s1<-imputed2$hgb_s1
+
+imputed$hba1c_s1<-imputed2$hba1c_s1
+imputed$quick_s1<-imputed2$quick_s1
+imputed$fib_cl_s1<-imputed2$fib_cl_s1
+imputed$crea_s_s1<-imputed2$crea_s_s1
+imputed$hrs_s_s1<-imputed2$hrs_s_s1
+imputed$gluc_s_s1<-imputed2$gluc_s_s1
+imputed$chol_s_s1<-imputed2$chol_s_s1
+imputed$tg_s_s1<-imputed2$tg_s_s1
+imputed$hdl_s_s1<-imputed2$hdl_s_s1
+imputed$ldl_s_s1<-imputed2$ldl_s_s1
+
+imputed$tsh_s1<-imputed2$tsh_s1
+imputed$jodid_u_s1<-imputed2$jodid_u_s1
+imputed$crea_u_s1<-imputed2$crea_u_s1
+imputed$hs_crp_s1<-imputed2$hs_crp_s1
+imputed$igf1_s1<-imputed2$igf1_s1
+imputed$sd_volg_s1<-imputed2$sd_volg_s1
+imputed$edyrs_s0<-imputed2$edyrs_s0
+imputed$kldb_75_s0<-imputed2$kldb_75_s0
+imputed$hf_kldb_75_s0<-NULL
+imputed$siops_s0<-imputed2$siops_s0
+
+imputed$mps_s0<-imputed2$mps_s0
+imputed$isei_s0<-imputed2$isei_s0
+imputed$inceq_s0<-imputed2$inceq_s0
+imputed$packyrs_s0<-imputed2$packyrs_s0
+imputed$alcg30d_s0<-NULL
+imputed$gfr_mdrd_s0<-imputed2$gfr_mdrd_s0
+imputed$chol_hdl_s0<-imputed2$chol_hdl_s0
+imputed$ffs_s0<-imputed2$ffs_s0
+imputed$mcs_sf12_s0<-imputed2$mcs_sf12_s0
+imputed$pcs_sf12_s0<-imputed2$pcs_sf12_s0
+
+imputed$mort_cvd_s0<-NULL
+imputed$mort_chd_s0<-NULL
+imputed$mort_ca_s0<-NULL
+imputed$na_s_s0<-imputed2$na_s_s0
+imputed$k_s_s0<-imputed2$k_s_s0
+imputed$ca_s_s0<-imputed2$ca_s_s0
+imputed$mg_s_s0<-imputed2$mg_s_s0
+
+#forming target variable
+imputed$liver_fat<-df_tmp$liver_fat
+#str(imputed$liver_fat)
 for(i in 1:nrow(df)){
-  if(df$liver_fat[i]  < 10){
-    df$liver_fat[i] <- 0
+  if(imputed$liver_fat[i]  < 10){
+    imputed$liver_fat[i] <- 0
   }
   else
-    df$liver_fat[i] <- 1
+    imputed$liver_fat[i] <- 1
 }
 
 #converting the numeric type of target variable to factor
-df$liver_fat<-as.factor(df$liver_fat)
+imputed$liver_fat<-as.factor(imputed$liver_fat)
 
-#cheking structure of target variable
-str(df$liver_fat)
+#We find 2 columns are still let with 1 missing value so imputing it again
 
+#creating a matrix with the above columns
+var = c("mps_s0","isei_s0")
+df_mice1<-imputed[var]
+imputed_m3<-mice(df_mice1, m = 2, method = "mean", seed = 500)
 
-#converting all integer type variable to numeric
-w_int <- which( sapply( df, class ) == 'integer' )
-df[w_int] <- lapply( df[w_int], function(x) as.numeric(x) )
-str(df)
+#creating the imputed matrix
+imputed3<-complete(imputed_m3)
 
-#-------------------Handling missing values for numeric type columns---------------------
+imputed$mps_s0<-imputed3$mps_s0
+imputed$isei_s0<-imputed3$isei_s0
 
-#Here we use MICE package to impute the missing values in the dataset
-#We take out columns that has missing values more than 5%
-#We will deal with them later
-#We will impose mice function on the dataset excuding numeric columns having missing
-#value more than 10%
+#---------------------End of:Handling Missing Values-----------------------
 
-#Calculating the number of NA values in a single column
-na_count <-sapply(df, function(y) sum(length(which(is.na(y)))))
-na_count <- data.frame(na_count)
-print(na_count)
-
-#Calculating the percentage of NA values 
-x <- NROW(df)
-y <- (na_count/x) * 100
-na_countP<-round(y,2)
-View(na_countP)
-na_countP<-data.frame(na_countP)
-
-
-rownames(na_countP)
-df_na<-rownames(na_countP)[order(na_countP$na_count, decreasing=TRUE)]
-
-#Subhashree - start of row analysis here. 
-#Subhashree - end of row analysis. 
-
-#Exporting the file.
+#---------------------Begin of:Exporting preprocessed file-----------------
 export(imputed, "imputed.rds")
-export(imputed, "imputed.csv")
+#---------------------End of:Exporting preprocessed file-------------------
 
+#-------------------Descriptive Statistics---------------------------------
