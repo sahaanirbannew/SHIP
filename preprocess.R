@@ -244,6 +244,12 @@ imputed$mort_chd_s0<- -99
 imputed$mort_ca_s0<- -99
 imputed$mort_cvd_s0<- -99
 
+export(imputed, "imputed.rds")
+export(imputed, "imputed.csv")
+
+
+
+##anirban: Executed till here.
 #anirban: not needed this part. #start
 #forming target variable
 dataset$liver_fat<-as.numeric(dataset$liver_fat)
