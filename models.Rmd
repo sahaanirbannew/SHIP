@@ -1,0 +1,112 @@
+---
+title: "Models"
+author: "Mangaraj & Saha" 
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4 
+    toc_float:
+      collapsed: false
+      smooth_scroll: false 
+--- 
+
+## Introduction 
+After exploring the data and preprocessing it, we have one file "imputed.rds" which has no missing values and is fit to train models. <br /> 
+In this section we train three classification models using the data. <br /> 
+
+## Decision Tree 
+We use ___ package to train decision tree using the imputed data. 
+
+
+## Random Forest 
+```{r  echo=FALSE, warning=FALSE, message=FALSE}
+pkg <- c("knitr")
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+
+#if It is not previously installed, install it. 
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+
+library(knitr)
+read_chunk(path="ran_for.R")  
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<InstallPackages>>
+<<LoadPackages>>
+<<LoadDataset>> 
+<<ModelAlgoRandomForest>>
+```
+We are implementing Random Forest Model by using _______ package.<br /> 
+
+We are dividing the dataset into two parts:
+
+* Training Data (80%)
+* Test Data (20%)
+
+We will implement Random Forest Model in 4 ways: <br />
+
+* Default values of MTry and NTree
+* Run 10 times, for different values of NTrees and analyse the Out of Bag (OOB) errors.
+* Run 10 times, for different values of MTry and analyse the OOB errors. 
+* Run for optimum number of MTry and NTrees where error is minimised and stabilises. 
+
+### Approach 1: Default values of MTry and NTree
+<center> 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<defMTreeNTreeVal>>  
+plot(rf1.cv, type = "cv", main = "CV producers accuracy")
+```
+<b>Fig: Cross Validation Producers Accuracy.</b><br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+plot(rf1.cv, type = "model", main = "Model producers accuracy")
+```
+<b>Fig: Model Producers Accuracy.</b><br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+plot(rf1.cv, type = "cv", stat = "oob", main = "CV oob error")
+```
+<b>Fig: Cross Validation vs Model OOB.</b><br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+plot(rf1.cv, type = "model", stat = "oob", main = "Model oob error")
+```
+<b>Fig: Model OOB Error.</b><br />
+</center>
+
+#### Test results.
+When tested with the test data (20% of the dataset), this was the result:
+```{r echo=FALSE, warning=FALSE, message=FALSE} 
+<<Predict>>
+confusionMatrix(p2_rf,train_rf$liver_fat)
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE} 
+plot(rf1)
+```
+<center><b> Fig: Error Rate for Random Forest Model approach 1. <br /></center> 
+
+
+### Approach 2: Optimisng NTrees. 
+
+
+#### Test Results.
+
+### Approach 3: Optimising MTry. 
+
+
+
+
+#### Test Results.
+
+### Approach 4: Optimisnig NTrees and MTrys to minimise error.
+
+
+
+
+#### Test Results.
+
+
+
+
+## Linear Regression 
+

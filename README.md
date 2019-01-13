@@ -2,9 +2,9 @@ In the Github repository, you’ll find the set of *.Rmd, *.html, *.R script fil
 
 The R Markdown Notebook has the following tabs:<br />
 Home [related files: home.Rmd, home.html] <br />
-Exploratory Data Analysis [related files: explor.Rmd, explor.html, explor.R] <br />
-Feature Selection [related files: feat_sel.Rmd, feat_sel.html, feat_sel.R]<br />
-Analysis [related files: <br />
+Exploratory Data Analysis [related files: explor.Rmd, explor.html, explor.R, Boruta.R] <br /> 
+Models [related files: <br />
+Analysis [related files: ] <br /> 
 
 The dataset is not uploaded in the Github repository for data privacy reasons. <br />
 Link to the Public URL: <br />

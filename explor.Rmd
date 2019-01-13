@@ -123,134 +123,20 @@ We removed 52 attributes because more than 5% of the values are missing. <br />
 After this removal of attributes, we have 360 columns left. 
 
 ### MICE Imputation. 
+We use the MICE package to impute the missing values of numerical type.
 ```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<RunMice>>
-=======
----
-title: "Exploratory Data Analysis"
-author: "Mangaraj & Saha"
-output: 
-  html_document:
-    toc: true
-    toc_depth: 4 
-    toc_float:
-      collapsed: false
-      smooth_scroll: false 
----
-```{r echo=FALSE,message=FALSE,warning=FALSE} 
-#Installing packages. 
-pkg <- c("knitr")
-new.pkg <- pkg[!(pkg %in% installed.packages())]
-
-#if It is not previously installed, install it. 
-if (length(new.pkg)) {
-  install.packages(new.pkg, repos = "http://cran.rstudio.com")
-}
-
-library(knitr)
-read_chunk(path="explor.R") 
-#source("preprocess.R", echo = FALSE)
+#<<RunMice>>
 ```
-## Introduction 
-Exploratory Data Analysis and the Data preprocessing phases are important phases in a data science project.<br /> 
-
-During the exploratory data analysis phase, we check the data as a whole and try to understand it at an abstract level. We also look for irregularities within the data and plan for the data preprocessing phase. <br/> 
-
-The Data proprocessing phase is very important in the sequence of phases. Often we do not have full control over collection of data and the data that is given to us has irregularities such as missing values, is out of range or is not in the proper format fit for further processing. These are just a few examples of irregularities that can be found in the dataset. <br />
-
-During the data preprocessing phase, we take care of such irregularities and make the data fit for further processing and analysis. <br />
-<br />
-
-##Exploring the dataset 
-In this section, we would discuss the following:
-
-* what we are exploring in the data set. 
-* what preprocessing steps we are doing. 
-
-###Initial state.
-Initially, the SHIP dataset had the following number of rows and columns.
+### Boruta (Feature Selection)
+There are still 360 columns in the dataset, all of which are not required to train the model for fatty liver. To select a set of uncorrelated, relevant and non-redundant columns, we do feature selection using the Boruta package.
 ```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<InstallPackages>>
-<<LoadPackages>>
-<<LoadDataSet>>
-dim(df)
-```
+source("Boruta.R", echo = FALSE)
+print("The relevance curve")
+plot(boruta)
 
-###Removal of unlabelled data. 
-Since we are doing supervised learning, we limit our scope to only labelled data. The number of columns is thus reduced.
-```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<JustLabelledData>>
-dim(df)  
-```
+print("Plot showing attribute importance over analysis time.")
+plotImpHistory(boruta)
 
-This is the distribution of Liver_fat over the labelled data: 
-```{r  echo=FALSE, warning=FALSE, message=FALSE}
-hist(df$liver_fat,
-     main = "Histogram~Liver fat",
-     xlab = "Liver fat",
-     col =  "orange")
-```
-
-Box Plot of age of the correspondents: <br/>
-```{r  echo=FALSE, warning=FALSE, message=FALSE}
-boxplot(df$age_ship_s0,
-        main = toupper("Boxplot of Age"),
-        ylab = "Age in years",
-        col = "magenta")
-```
-**Note:** In our further analysis, we would convert the Liver_fat to a categorical value. Anything above 10 would be denoted as "1" or positive cases, while the rest would be "0" or negative cases.
-
-###Removal of unrelated columns
-8 columns were removed because they logically do not contribute to the target variable. After this operation, there would be 392 columns. 
-```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<DelIrrelevantColumns>> 
-dim(df)
-```
-
-###Handling Missing Values
-In the initial dataset, there would always be irregularities, one of the major being missing values. There might be a considerable amount of data missing in particular columns or in specific rows. <br /> 
-
-The below chart shows the columns which has missing data in the labelled dataset. 
-
-```{r  echo=FALSE, warning=FALSE, message=FALSE}
- <<HandlingMissingValues>> 
-plot_missing(df[1:15])
-plot_missing(df[16:30])
-plot_missing(df[31:50])
-plot_missing(df[51:70])
-plot_missing(df[71:100])
-plot_missing(df[101:130])
-plot_missing(df[131:160])
-plot_missing(df[161:190])
-plot_missing(df[191:220])
-plot_missing(df[221:250])
-plot_missing(df[251:275])
-plot_missing(df[276:300])
-plot_missing(df[301:330])
-#plot_missing(df[331:360])
-#plot_missing(df[361:380])
-#plot_missing(df[381:392])
-```
-
-##### Factor Datatypes
-If the missing value is of Factor datatype and 
-
-* signifies gender, then we put a new category (value) instead of missing value.
-* does not signify gender, then we put "None" in place of missing value.
-
-##### Numerical Datatype
-If the missing value is numeric, and 
-
-* signifies gender, then we convert it to categorical (value) and insert a new category. 
-* does not signify gender then we do further analysis. 
-
-### Removal of columns.
-
-If more than 10% of the values are missing in a column then we discard the column, else we use MICE package to impute the missing values. <br />
-We removed 52 attributes because more than 5% of the values are missing. <br />
-After this removal of attributes, we have 360 columns left. 
-
-### MICE Imputation. 
-```{r  echo=FALSE, warning=FALSE, message=FALSE}
-#<<RunMice>> 
+print("List of relevant columns:")
+print(boruta_ten)
 ```

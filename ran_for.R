@@ -52,6 +52,7 @@ library(DataExplorer)
 library(rfUtilities)
 library(parallel)
 library(doParallel)
+library(e1071)
 #---------------------End of:import libraries--------------------------------
 
 #---------------------Begin of:loading of Dataset----------------------------
@@ -60,7 +61,7 @@ library(doParallel)
 dataset = readRDS('imputed.rds') 
 
 df_data_rf<-data.frame(dataset)
-table(df_data_rf$liver_fat)
+#table(df_data_rf$liver_fat)
 
 #Non-Rejected features selected from Boruta
 w_non_rej<- c("age_ship_s0", "som_bmi_s0","som_tail_s0" , "som_huef_s0" , 
@@ -104,44 +105,44 @@ set.seed(123)
 row.number <- sample(1:nrow(df_data_rf), 0.8*nrow(df_data_rf))
 train_rf = df_data_rf[row.number,]
 test_rf= df_data_rf[-row.number,]
-dim(train_rf)
-dim(test_rf)
+#dim(train_rf)
+#dim(test_rf)
 
-##1. Random Forest with default mtry and ntree value
+#1. Random Forest with default mtry and ntree value
 #---------------------------------------------------
 rf1<- randomForest(liver_fat~.,data = train_rf)
-print(rf1)
+#print(rf1)
 attributes(rf1)
 rf1$confusion
 #Cross validation with 0 fold
 rf1.cv <- rf.crossValidation(rf1, train_rf, p=0.10, n=10) 
-print(rf1.cv)
+#print(rf1.cv)
 attributes(rf1.cv)
 #rf1.cv<-data.frame(rf1.cv)#convertig to data frame
 
 # Plot cross validation verses model producers accuracy
 par(mfrow=c(1,2)) 
-plot(rf1.cv, type = "cv", main = "CV producers accuracy")
-plot(rf1.cv, type = "model", main = "Model producers accuracy")
+#plot(rf1.cv, type = "cv", main = "CV producers accuracy")
+#plot(rf1.cv, type = "model", main = "Model producers accuracy")
 
 # Plot cross validation verses model oob
 par(mfrow=c(1,2)) 
-plot(rf1.cv, type = "cv", stat = "oob", main = "CV oob error")
-plot(rf1.cv, type = "model", stat = "oob", main = "Model oob error")
+#plot(rf1.cv, type = "cv", stat = "oob", main = "CV oob error")
+#plot(rf1.cv, type = "model", stat = "oob", main = "Model oob error")
 
 #prediction
 p1_rf<-predict(rf1,test_rf)
 p2_rf<-predict(rf1,train_rf)
-print(p1_rf)
+#print(p1_rf)
 head(p1_rf)
 
-library(e1071)
+
 #confusion matrix
 confusionMatrix(p2_rf,train_rf$liver_fat)
 confusionMatrix(p1_rf,test_rf$liver_fat)
 
 #error rate for random forest
-plot(rf1, main="Plotting errors vs number of trees") 
+#plot(rf1, main="Plotting errors vs number of trees") 
 #Evaluate variable importance
 varImpPlot(rf1)
 
@@ -158,34 +159,34 @@ df_acc<-rbind(df_acc,newrow)
 mtry <- tuneRF(train_rf[-346],train_rf$liver_fat, ntreeTry=500,
                stepFactor=1.5,improve=0.01, trace=TRUE, plot=TRUE)
 best_mtry <- mtry[mtry[, 2] == min(mtry[, 2]), 1]
-print(mtry)
-print(best_mtry)
+#print(mtry)
+#print(best_mtry)
 
 #Building model again using best mtry value found in tuning
 
 rf1_mtry<- randomForest(liver_fat~.,data = train_rf, mtry = best_mtry,
                         importance = TRUE, ntree = 500)
-print(rf1_mtry)
+#print(rf1_mtry)
 rf1_mtry$confusion
 #Cross validation with 0 fold
 rf1_mtry.cv <- rf.crossValidation(rf1_mtry, train_rf, p=0.10, n=10) 
-print(rf1_mtry.cv)
+#print(rf1_mtry.cv)
 #rf1.cv<-data.frame(rf1.cv)#convertig to data frame
 
 # Plot cross validation verses model producers accuracy
 par(mfrow=c(1,2)) 
-plot(rf1_mtry.cv, type = "cv", main = "CV producers accuracy")
-plot(rf1_mtry.cv, type = "model", main = "Model producers accuracy")
+#plot(rf1_mtry.cv, type = "cv", main = "CV producers accuracy")
+#plot(rf1_mtry.cv, type = "model", main = "Model producers accuracy")
 
 # Plot cross validation verses model oob
 par(mfrow=c(1,2)) 
-plot(rf1_mtry.cv, type = "cv", stat = "oob", main = "CV oob error")
-plot(rf1_mtry.cv, type = "model", stat = "oob", main = "Model oob error")
+#plot(rf1_mtry.cv, type = "cv", stat = "oob", main = "CV oob error")
+#plot(rf1_mtry.cv, type = "model", stat = "oob", main = "Model oob error")
 
 #prediction
 p1_rf_mtry<-predict(rf1_mtry,test_rf)
 p2_rf_mtry<-predict(rf1_mtry,train_rf)
-print(p1_rf_mtry)
+#print(p1_rf_mtry)
 head(p1_rf_mtry)
 
 library(e1071)
@@ -194,9 +195,9 @@ confusionMatrix(p2_rf_mtry,train_rf$liver_fat)
 confusionMatrix(p1_rf_mtry,test_rf$liver_fat)
 
 #error rate for random forest
-plot(rf1_mtry)
+#plot(rf1_mtry)
 #Evaluate variable importance
-varImpPlot(rf1_mtry)
+#varImpPlot(rf1_mtry)
 
 #Entering data in table df_acc
 newrow<-data.frame(Model_Name = "Tune_MTRY_RF", mtry = 40, ntree = 500,
@@ -231,7 +232,7 @@ for (ntree in c(700,1000,1500)){
 
 #Compare results
 results <- resamples(modellist)
-summary(results)
+#summary(results)
 
 #Maximum Accuracy when NTREE = 700
 
@@ -239,36 +240,36 @@ summary(results)
 
 rf1_ntree<- randomForest(liver_fat~.,data = train_rf,
                          importance = TRUE, ntree = 700)
-print(rf1_ntree)
+#print(rf1_ntree)
 rf1_ntree$confusion
 #Cross validation with 0 fold
 rf1_ntree.cv <- rf.crossValidation(rf1_ntree, train_rf, p=0.10, n=10) 
-print(rf1_ntree.cv)
+#print(rf1_ntree.cv)
 #rf1.cv<-data.frame(rf1.cv)#convertig to data frame
 
 # Plot cross validation verses model producers accuracy
 par(mfrow=c(1,2)) 
-plot(rf1_ntree.cv, type = "cv", main = "CV producers accuracy")
-plot(rf1_ntree.cv, type = "model", main = "Model producers accuracy")
+#plot(rf1_ntree.cv, type = "cv", main = "CV producers accuracy")
+#plot(rf1_ntree.cv, type = "model", main = "Model producers accuracy")
 
 # Plot cross validation verses model oob
 par(mfrow=c(1,2)) 
-plot(rf1_ntree.cv, type = "cv", stat = "oob", main = "CV oob error")
-plot(rf1_ntree.cv, type = "model", stat = "oob", main = "Model oob error")
+#plot(rf1_ntree.cv, type = "cv", stat = "oob", main = "CV oob error")
+#plot(rf1_ntree.cv, type = "model", stat = "oob", main = "Model oob error")
 
 #prediction
 p1_rf_ntree<-predict(rf1_ntree,test_rf)
 p2_rf_ntree<-predict(rf1_ntree,train_rf)
-print(p1_rf_ntree)
+#print(p1_rf_ntree)
 head(p1_rf_ntree)
 
 library(e1071)
 #confusion matrix
-confusionMatrix(p2_rf_ntree,train_rf$liver_fat)
-confusionMatrix(p1_rf_ntree,test_rf$liver_fat)
+#confusionMatrix(p2_rf_ntree,train_rf$liver_fat)
+#confusionMatrix(p1_rf_ntree,test_rf$liver_fat)
 
 #error rate for random forest
-plot(rf1_ntree)
+#plot(rf1_ntree)
 #Evaluate variable importance
 varImpPlot(rf1_ntree)
 
@@ -282,27 +283,27 @@ df_acc<-rbind(df_acc,newrow)
 
 rf1_op<- randomForest(liver_fat~.,data = train_rf, mtry = 40,
                       importance = TRUE, ntree = 700)
-print(rf1_op)
+#print(rf1_op)
 rf1_op$confusion
 #Cross validation with 0 fold
 rf1_op.cv <- rf.crossValidation(rf1_op, train_rf, p=0.10, n=10) 
-print(rf1_op.cv)
+#print(rf1_op.cv)
 #rf1.cv<-data.frame(rf1.cv)#convertig to data frame
 
 # Plot cross validation verses model producers accuracy
 par(mfrow=c(1,2)) 
-plot(rf1_op.cv, type = "cv", main = "CV producers accuracy")
-plot(rf1_op.cv, type = "model", main = "Model producers accuracy")
+#plot(rf1_op.cv, type = "cv", main = "CV producers accuracy")
+#plot(rf1_op.cv, type = "model", main = "Model producers accuracy")
 
 # Plot cross validation verses model oob
 par(mfrow=c(1,2)) 
-plot(rf1_op.cv, type = "cv", stat = "oob", main = "CV oob error")
-plot(rf1_op.cv, type = "model", stat = "oob", main = "Model oob error")
+#plot(rf1_op.cv, type = "cv", stat = "oob", main = "CV oob error")
+#plot(rf1_op.cv, type = "model", stat = "oob", main = "Model oob error")
 
 #prediction
 p1_rf_op<-predict(rf1_op,test_rf)
 p2_rf_op<-predict(rf1_op,train_rf)
-print(p1_rf_op)
+#print(p1_rf_op)
 head(p1_rf_op)
 
 library(e1071)
@@ -311,7 +312,7 @@ confusionMatrix(p2_rf_op,train_rf$liver_fat)
 confusionMatrix(p1_rf_op,test_rf$liver_fat)
 
 #error rate for random forest
-plot(rf1_op)
+#plot(rf1_op)
 #Evaluate variable importance
 varImpPlot(rf1_op)
 
@@ -323,9 +324,9 @@ df_acc<-rbind(df_acc,newrow)
 #---------------------End of Modelling Algo1: Random Forest------------------
 #---------------------Begin of Evaluation------------------------------------
 
-ggplot(df_acc, aes(x = Model_Name, y = OOB_Err, colour = variable)) + 
-  geom_line() + 
-  ylab(label="Model Name") + 
-  xlab("Out of Bag Error") + 
-  scale_colour_manual(values=c("grey", "blue"))
+#gg#plot(df_acc, aes(x = Model_Name, y = OOB_Err, colour = variable)) + 
+#  geom_line() + 
+#  ylab(label="Model Name") + 
+#  xlab("Out of Bag Error") + 
+#  scale_colour_manual(values=c("grey", "blue"))
 #---------------------End of Evaluation--------------------------------------

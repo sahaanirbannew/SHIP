@@ -6,8 +6,8 @@ navbar:
       href: home.html
     - text: "Exploring the Data"
       href: explor.html 
-    - text: "Feature Selection Methods"
-      href: feat_sel.html
+    - text: "Models"
+      href: models.html
     - text: "Final Analysis"
       href: analysis.html  
       
