@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 title: "Exploratory Data Analysis"
 author: "Mangaraj & Saha"

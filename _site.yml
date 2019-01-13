@@ -5,11 +5,9 @@ navbar:
     - text: "Home"
       href: home.html
     - text: "Exploring the Data"
-      href: explor.html
-    - text: "Data Pre processing"
-      href: preprocess.html
+      href: explor.html 
     - text: "Feature Selection Methods"
-      href: featureselections.html
+      href: feat_sel.html
     - text: "Final Analysis"
       href: analysis.html  
       

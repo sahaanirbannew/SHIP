@@ -1,0 +1,54 @@
+---
+title: "feat_sel"
+author: "Mangaraj & Saha"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4 
+    toc_float:
+      collapsed: false
+      smooth_scroll: false 
+---
+
+```{r echo=FALSE,message=FALSE,warning=FALSE} 
+#Installing packages. 
+pkg <- c("knitr")
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+
+#if It is not previously installed, install it. 
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+
+library(knitr)
+read_chunk(path="feat_sel.R")  
+```
+
+### Boruta Feature Selection. 
+```{r echo=FALSE,message=FALSE,warning=FALSE} 
+<<InstallPackages>>
+<<LoadPackages>>
+<<LoadDataSet>>
+<<WrapperBoruta>>
+```
+We implemented the Boruta Feature Selection method on the dataset. It confirmed 35 attributes as important, and 293 attributes unimportant. 11 tentative attributes were left. <br /> 
+
+Plotting the attributes with their importance: 
+```{r echo=FALSE,message=FALSE,warning=FALSE} 
+plot(boruta)
+```
+
+Plotting Boruta object as Importance History.
+```{r echo=FALSE,message=FALSE,warning=FALSE} 
+plotImpHistory(boruta)
+```
+
+
+
+
+
+
+
+
+
+
