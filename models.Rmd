@@ -92,9 +92,18 @@ plot(rf1)
 #### Test Results.
 
 ### Approach 3: Optimising MTry. 
+The number of variables  available for splitting at each tree node, in the random forests literature, is referred to as the mtry parameter.
+<b>How does optimising MTrys affect? </b> 
 
-
-
+While trying to optimise MTrys, we found out the following: 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<defMTreeNTreeVal2>> 
+  print(mtry)
+```
+The best MTry which has minimum OOB Error is - 
+```{r echo=FALSE, warning=FALSE, message=FALSE} 
+  print(best_mtry)
+```
 
 #### Test Results.
 
