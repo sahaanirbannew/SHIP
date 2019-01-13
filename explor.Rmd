@@ -253,5 +253,5 @@ After this removal of attributes, we have 360 columns left.
 
 ### MICE Imputation. 
 ```{r  echo=FALSE, warning=FALSE, message=FALSE}
-<<RunMice>> 
+#<<RunMice>> 
 ```
