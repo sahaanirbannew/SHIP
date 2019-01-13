@@ -9,3 +9,8 @@ Analysis [related files:
 The dataset is not uploaded in the Github repository for data privacy reasons. 
 Link to the Public URL: 
 
+Instructions for running: 
+a. Clone the repository. 
+b. Put the dataset '181121_ship.rds' file in the folder.
+c. Knit the explor.Rmd page to execute the exploratory data analysis phase. 
+d. 
