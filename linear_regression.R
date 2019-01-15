@@ -150,11 +150,11 @@ colnames(df_acc_l)<-nam
 #Here we tried to plot scatter plots to see the reltionship of various individual predictors
 #with the target variable
 train_lin1<-train_lin
-#scatter.smooth(x=train_lin1$som_bmi_s0, y = train_lin1$liver_fat, main = "BMI~LiverFat",col=c("green","red"))
-#scatter.smooth(x=train_lin1$som_tail_s0, y = train_lin1$som_tail_s0, main = "som_tail_s0~LiverFat",col=c("green","red"))
-#scatter.smooth(x=train_lin1$hrs_s_s0, y = train_lin1$liver_fat, main = "Sleep~LiverFat",col=c("green","red"))
-#scatter.smooth(x=train_lin1$stea_alt75_s0, y = train_lin1$liver_fat, main = "stea_alt75_s0~LiverFat",col=c("green","red"))
-#scatter.smooth(x=train_lin1$diabetes_s2, y = train_lin1$liver_fat, main = "Diabetes~LiverFat",col=c("green","red"))
+scatter.smooth(x=train_lin1$som_bmi_s0, y = train_lin1$liver_fat, main = "BMI~LiverFat",col=c("green","red"))
+scatter.smooth(x=train_lin1$som_tail_s0, y = train_lin1$som_tail_s0, main = "som_tail_s0~LiverFat",col=c("green","red"))
+scatter.smooth(x=train_lin1$hrs_s_s0, y = train_lin1$liver_fat, main = "Sleep~LiverFat",col=c("green","red"))
+scatter.smooth(x=train_lin1$stea_alt75_s0, y = train_lin1$liver_fat, main = "stea_alt75_s0~LiverFat",col=c("green","red"))
+scatter.smooth(x=train_lin1$diabetes_s2, y = train_lin1$liver_fat, main = "Diabetes~LiverFat",col=c("green","red"))
 
 #Here we plot a density curve to see the distribution od data of target variable(Liver_fat)
 #Inference: Maximum people have a liver fat value les than 10 which is the threshhold limit
