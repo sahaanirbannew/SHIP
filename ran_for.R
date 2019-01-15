@@ -170,7 +170,7 @@ newrow<-data.frame(Model_Name = "DefaultRF", mtry = 18, ntree = 500,
 df_acc<-rbind(df_acc,newrow)
 
 
-## @knitr defMTreeNTreeVal2
+## @knitr defMTryNTreeVal2
 #2. Tuning Random forest with different values of MTRY and observe OOB error
 
 
@@ -179,8 +179,8 @@ df_acc<-rbind(df_acc,newrow)
 mtry <- tuneRF(train_rf[-346],train_rf$liver_fat, ntreeTry=500,
                stepFactor=1.5,improve=0.01, trace=TRUE, plot=TRUE)
 best_mtry <- mtry[mtry[, 2] == min(mtry[, 2]), 1]
-print(mtry)
-print(best_mtry)
+#print(mtry)
+#print(best_mtry)
 
 #Building model again using best mtry value found in tuning
 
@@ -204,8 +204,8 @@ rf1_mtry.cv <- rf.crossValidation(rf1_mtry, train_rf, p=0.10, n=10)
 #plot(rf1_mtry.cv, type = "model", stat = "oob", main = "Model oob error")
 
 #prediction
-p1_rf_mtry<-predict(rf1_mtry,test_rf)
 p2_rf_mtry<-predict(rf1_mtry,train_rf)
+p1_rf_mtry<-predict(rf1_mtry,test_rf)
 #print(p1_rf_mtry)
 #head(p1_rf_mtry)
 
@@ -225,7 +225,7 @@ newrow<-data.frame(Model_Name = "Tune_MTRY_RF", mtry = 40, ntree = 500,
 df_acc<-rbind(df_acc,newrow)
 
 #3. Tuning Random forest with different values of NTREE and observe OOB error
-
+## @knitr defMTryNTreeVal3
 #Manual search by creating 10 folds and repeating 3 times
 control <- trainControl(method = 'repeatedcv',
                         number = 10,
@@ -277,8 +277,8 @@ rf1_ntree.cv <- rf.crossValidation(rf1_ntree, train_rf, p=0.10, n=10)
 #plot(rf1_ntree.cv, type = "model", stat = "oob", main = "Model oob error")
 
 #prediction
-p1_rf_ntree<-predict(rf1_ntree,test_rf)
 p2_rf_ntree<-predict(rf1_ntree,train_rf)
+p1_rf_ntree<-predict(rf1_ntree,test_rf)
 #print(p1_rf_ntree)
 #head(p1_rf_ntree)
 
@@ -293,6 +293,7 @@ library(e1071)
 #varImpPlot(rf1_ntree)
 
 #Entering data in table df_acc
+## @knitr defMTryNTreeVal4
 newrow<-data.frame(Model_Name = "Tune_NTREE_RF", mtry = 18, ntree = 700,
                    OOB_Err = 16.53,Acc_train = 1, Acc_test = 0.8371 )
 df_acc<-rbind(df_acc,newrow)
