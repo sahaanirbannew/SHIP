@@ -162,16 +162,19 @@ scatter.smooth(x=train_lin1$diabetes_s2, y = train_lin1$liver_fat, main = "Diabe
 #This curve helps to see the data districution
 #ggplot(train_lin, aes(liver_fat)) + geom_density(fill="blue")
 
+## @knitr furtherStepsDensityG
 #Density Graph: To check how much is the response variable close to normality
 #For som_bmi_s0, the graph is right skewed(positive skew)
-#plot(density(train_lin1$som_bmi_s0), main="Density Plot: BMI", ylab="Liver_fat", sub=paste("Skewness:", 
-#                                                                                           round(e1071::skewness(train_lin1$som_bmi_s0), 2)))  # density plot for 'BMI'
-#polygon(density(train_lin1$som_bmi_s0), col="pink")
+train_lin1<-train_lin
+plot(density(train_lin$som_bmi_s0), main="Density Plot: BMI", ylab="Liver_fat", sub=paste("Skewness:", 
+                                                                                           round(e1071::skewness(train_lin1$som_bmi_s0), 2)))  # density plot for 'BMI'
+polygon(density(train_lin$som_bmi_s0), col="pink")
 
 #For ferri_s0 the graph is right skewed(positive skew)
-#plot(density(train_lin1$ferri_s0), main="Density Plot: ferri_s0", ylab="Liver_Fat", sub=paste("Skewness:",
-#                                                                                              round(e1071::skewness(train_lin1$ferri_s0), 2)))  # density plot for 'Diabetes'
-#polygon(density(train_lin1$ferri_s0), col="yellow")
+## @knitr furtherStepsDensityGferri
+plot(density(train_lin1$ferri_s0), main="Density Plot: ferri_s0", ylab="Liver_Fat", sub=paste("Skewness:",
+                                                                                              round(e1071::skewness(train_lin1$ferri_s0), 2)))  # density plot for 'Diabetes'
+polygon(density(train_lin1$ferri_s0), col="yellow")
 
 ## @knitr MLR1
 #1.MLR with all attributes , check p-Value, AIC, BIC
@@ -348,7 +351,8 @@ df_acc_l<-rbind(df_acc_l,newrow)
 
 ## @knitr AnalyVariance
 #Analysis of Variances
-
+install.packages("iml", repos = "http://cran.rstudio.com") 
+library(iml)
 #Comparing model1 and model2
 
 #anova(model1, model2)

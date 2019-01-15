@@ -38,8 +38,6 @@ read_chunk(path="ran_for.R")
 <<LoadDataset>> 
 <<ModelAlgoRandomForest>>
 ```
-We are implementing Random Forest Model by using _______ package.<br /> 
-
 We are dividing the dataset into two parts:
 
 * Training Data (80%)
@@ -179,14 +177,12 @@ Density Graph: To check how much is the response variable close to normality
 For som_bmi_s0, the graph is right skewed (positive skew)<br />
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
-plot(density(train_lin1$som_bmi_s0), main="Density Plot: BMI", ylab="Liver_fat", sub=paste("Skewness:", round(e1071::skewness(train_lin1$som_bmi_s0), 2)))
-polygon(density(train_lin1$som_bmi_s0), col="pink")
+<<furtherStepsDensityG>>
 ```
 <br /> 
 For ferri_s0 the graph is right skewed(positive skew)
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
-plot(density(train_lin1$ferri_s0), main="Density Plot: ferri_s0", ylab="Liver_Fat", sub=paste("Skewness:", round(e1071::skewness(train_lin1$ferri_s0), 2)))
-polygon(density(train_lin1$ferri_s0), col="yellow")
+<<furtherStepsDensityGferri>> 
 <<MLR1>> 
 ```
 
@@ -265,6 +261,7 @@ The linear regression model is created, taking into consideration the important 
 The summary function gives the performance summary of the model such as:Residuals, coeficients(intercept and slope for each feature), t-Value, residual standard error, Multiple R Squared value, F statistics. <br /> 
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<MLR2>>
 summary(model2)
 ```
 
@@ -298,6 +295,7 @@ In this approach, we use all the features selected by the Boruta Method.
 <br />
 The summary function gives the performance summary of the model such as:Residuals, coeficients(intercept and slope for each feature), t-Value, Residual standard error, Multiple R Squared value, F statistics
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<MLR3>>
 summary(model3)
 ```
 
