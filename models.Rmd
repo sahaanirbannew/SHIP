@@ -15,7 +15,206 @@ After exploring the data and preprocessing it, we have one file "imputed.rds" wh
 In this section we train three classification models using the data. <br /> 
 
 ## Decision Tree 
-We use ___ package to train decision tree using the imputed data. 
+
+```{r  echo=FALSE, warning=FALSE, message=FALSE}
+pkg <- c("knitr")
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+
+#if It is not previously installed, install it. 
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+
+library(knitr)
+read_chunk(path="decision_tree.R")  
+```
+We partition the data to training (80%) and test data (20%). <br /> 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<InstallPackages>> 
+<<LoadPackages>> 
+<<LoadDataset>> 
+<<BeginDecisionTree>> 
+<<DTRpartPackage>> 
+```
+Creating the decision tree. <br /> 
+Class models: display the classification rate at the node, expressed as the number of correct classifications and the number of observations in the node.
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+rpart.plot(dt1_rpart,extra = 2)
+```
+
+Class models: misclassification rate at the node, expressed as the number of incorrect classifications and the number of observations in the node.
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+rpart.plot(dt1_rpart,extra = 3)
+```
+
+Class models: the probability of the fitted class.
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+rpart.plot(dt1_rpart,extra = 8)
+```
+ 
+The summary gives the complete information about the tree,
+
+* The number of nodes, information regarding each node,
+* Information regarding each split and split conditions,
+* Class counts over the data as well as the probabilities of classes at eah node.
+* It also gives info about primary split and surrogate splits
+A primary splitting rule : is always calculated by default, and it provides for the assignment of observations when the predictor variable is missing, even when there are no missing values in the training data. This allows for the possibility of missing values when you are scoring new data
+A surrogate split : The purpose of a surrogate rule is to handle the assignment of observations by using an alternative variable that has similar predictive ability and has nonmissing values in observations where the primary predictor is missing. 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<rpartSummary>> 
+```
+
+**Examining the complexity of the plot** <br />
+This plots the various cp values.provides a graphical representation to the cross validated error summary. The cp values are plotted against the geometric mean to depict the deviation until the minimum value is reached.<br />
+The value of cp should be least, so that the cross-validated error rate is minimum.
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<ExamineComplexity>> 
+plotcp(dt1_rpart)
+```
+
+**Computing Accuracy of the rpart tree:**<br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+base_accuracy
+```
+
+**Grow a tree with minsplit of 500 and max depth of 10**<br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+rpart.plot(dt_rpart_preprun)
+```
+
+
+**Checking the accuracy of this approach:**<br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+accuracy_preprun
+```
+
+**After Pruning:**<br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+data.frame(base_accuracy, accuracy_preprun, accuracy_postprun)
+```
+
+**Decision Trees using selected features:**<br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTBorutaFeatures>> 
+rpart.plot(dt2_rpart,extra = 4)
+```
+
+The summary gives the complete information about the tree, the number of nodes, information regarding each node, information regarding each split and split conditions, Class counts over the data as well as the probabilities of classes at eah node. It also gives info about primary split and surrogate splits. A primary split and surrogate split. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTBorutaSummary>> 
+summary(dt2_rpart)
+```
+
+**Cross validated error summary:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+plotcp(dt2_rpart)
+```
+
+**Accuracy:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+base_accuracy2
+```
+
+**Growing a tree with minSplit 200 and MaxDepth 10:** 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTBoruta200d10>> 
+rpart.plot(dt2_rpart) 
+```
+**Accuracy:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+accuracy2
+```
+
+**Growing a tree with minSplit 100 and MaxDepth 10:** 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTBoruta100d10>> 
+rpart.plot(dt3_rpart)
+```
+**Accuracy:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTBorutaAccu>> 
+accuracy3
+```
+
+
+**DT with rpart package with Important Features from Random Forest:** 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+<<DTRPartRanForP>> 
+
+  rpart.plot(dt3_rpart,extra = 4)
+```
+**Examining Complexity:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTExamComplePlot>> 
+plotcp(dt3_rpart)
+```
+**Accuracy:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTAccuracyRpartTree>> 
+base_accuracy3
+```
+
+**Grow a tree with minsplit of 200 and max depth of 10**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTMinSplit200D10>> 
+rpart.plot(dt3_rpart_pre)
+```
+**Accuracy:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTAccurPrunedTree>> 
+accuracy_pre3
+```
+
+**Grow a tree with minsplit of 100 and max depth of 10**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTRPartRanFor>> 
+rpart.plot(dt3_rpart_post)
+```
+**Accuracy:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+<<DTRPartRanForAccur>> 
+accuracy_post3
+```
+**After Pruning:**<br />
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+data.frame(base_accuracy3, accuracy_pre3, accuracy_post3)
+```
+
+**Tabulation of work so far:**
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+df_acc_2
+<<BeginEval>> 
+```
+
+### Evaluation
+The decision tree with selected features using Boruta method has given better results. 
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(df_acc_2) + geom_density(aes(Base_Acc, color = Model_Name)) + 
+  geom_jitter(aes(Base_Acc, 0, color = Model_Name), alpha = 0.5, height = 0.02 )
+
+barplot(df_acc_2$Base_Acc, main="Decision Tree analysis", xlab="Model Names", ylab="Base Accuracy", 
+        names.arg=c("All","Bor","RF"),
+        border="red", density=c(0.8258, 0.8988, 0.8442))
+```
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
 
 
 ## Random Forest 
