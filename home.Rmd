@@ -25,6 +25,3 @@ We’ve used this dataset to explore various functionalities of R and R packages
 
 <br />
 
-###**Related Works: **<br /> 
-
-###**About the Data**<br />
