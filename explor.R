@@ -677,5 +677,8 @@ imputed$isei_s0<-imputed3$isei_s0
 #---------------------End of:Handling Missing Values-----------------------
 
 #---------------------Begin of:Exporting preprocessed file-----------------
+imputed_tmp<-imputed
+imputed$liver_fat<-NULL
+imputed$liver_fat<-imputed_tmp$liver_fat
 export(imputed, "imputed.rds")
 #---------------------End of:Exporting preprocessed file-------------------
