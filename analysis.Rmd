@@ -1,0 +1,68 @@
+---
+title: "Analysis Report"
+author: "Mangaraj & Saha" 
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4 
+    toc_float:
+      collapsed: false
+      smooth_scroll: false 
+--- 
+
+## Introduction
+For the course “DataScience with R”, we’ve explored the SHIP dataset provided to us by our faculty, with a signed non disclosure agreement. Thus, the dataset is not up on the Github. 
+
+We’ve explored the dataset and tried to explore as much functionalities of R and R packages as possible; also understand the general process (pipeline) of a data science project. In this document, we will mention the methods we implemented and our observations at the end of each implementation. 
+
+## Data Preprocessing
+During **the data preprocessing phase**, we mainly dealt with missing values. Values were missing due to a variety of reasons, with or without intention. During this phase, we learnt about how we can impute different types of data. If it is factor type and specifies gender, in all probability, the person who was recording the data forgot to enter it. We introduce a third category and fill the missing space. Similarly for non gender specific, we put “None”. For numeric data type and gender specific, we change the data type to categorical and introduce a new category. If it is not,  we impute them using the average of columns, using the MICE package. If numerical columns had more than 10% missing data, we removed the columns, because we could not fill that space up not compromising with the data integrity. 
+
+The data set had 400 columns. We realised we need to implement a feature selection method. We used a feature selection wrapper method using the Boruta package. We used the Boruta package because it is used in the industry. The algorithm is a wrapper built around the random forest classification algorithm. 
+
+Considering the fact that we’ve spent a considerable amount of time reading about and understanding the data, and how to pre-process it, we trust this is applicable for all data science projects. A careful pre-processing is important for all data science projects. 
+
+We then implemented the modelling algorithms. In this section we would briefly talk about what we implemented and the observations. 
+
+##Decision Tree: 
+Implementing Decision Tree Algorithm: 
+We’ve built three decision trees: 
+
+* Decision Tree using all features (columns) of the original dataset. 
+* Decision Tree using selected features: 
+* Decision Tree using Random Forest features: 
+	
+Observations: The trees are grown (trained) and later pruned because we thought it was leading to overfitting. We later observed the accuracy before pruning and after pruning to validate the thought. 
+We later compared the three approaches we had. We observed that the best approach is building a decision tree using selected features using Boruta method. 
+
+## Random Forest:
+Implementing Random Forest algorithm: 
+While implementing the Random Forest Algorithm, we played around a bit. We did the following: 
+
+* We ran through the algorithm with default MTry and NTree values. 
+* We ran the algorithm with optimised MTry values. 
+* We ran the algorithm with optimised NTree values. 
+* We ran the algorithm with optimised Mtry and NTree values. 
+
+For every approach we recorded the OOB misclassification error rate, at various stages of the optimisation process. We then analysed the OOB misclassification error rate for all the four approaches. The second approach, i.e. the model with default NTree and optimised MTry has yielded the lowest error. 
+
+We tried multiple approaches because we read on the internet that approaches to classify a data set is very specific to the dataset. A process applicable for one might not be the best solution for another dataset. To our experience, we might accept this because we had a general assumption that the approach (d) would yield the best model. Clearly, it didn’t. 
+
+## Linear Regression: 
+Implementing Linear Regression: 
+We trained three linear regression models and checked which approach gave us the best result. 
+
+* Linear Regression using all features. 
+* Linear Regression using (Boruta) selected features. 
+* Linear Regression using Random Forest selected features. 
+
+The comparison of the model performance was done using the following: 
+
+* analysis of variance
+* analysing the R squared accuracy values
+* analysed the residual of models by plotting the histogram and observing their symmetry across zero
+* computed and compared their RMSE values. 
+
+We observed that the linear regression model that we built using all the features of the original dataset yields the best model contrasting to our initial hypothesis that the approach using any of the set of selected features would give the best result. 
+
+

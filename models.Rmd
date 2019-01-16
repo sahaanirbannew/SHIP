@@ -142,7 +142,8 @@ accuracy3
 **DT with rpart package with Important Features from Random Forest:** 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
-<<DTRPartRanForP>> 
+<<DTRPartRanForP
+>> 
 
   rpart.plot(dt3_rpart,extra = 4)
 ```
