@@ -125,7 +125,7 @@ After this removal of attributes, we have 360 columns left.
 ### MICE Imputation. 
 We use the MICE package to impute the missing values of numerical type.
 ```{r  echo=FALSE, warning=FALSE, message=FALSE}
-#<<RunMice>>
+<<RunMice>>
 ```
 ### Boruta (Feature Selection)
 There are still 360 columns in the dataset, all of which are not required to train the model for fatty liver. To select a set of uncorrelated, relevant and non-redundant columns, we do feature selection using the Boruta package.
