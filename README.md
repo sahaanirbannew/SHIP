@@ -23,4 +23,5 @@ Put the dataset “181121_ship.rds” in the main folder.<br />
 Open the home.Rmd file and Knit to HTML. <br />
 Each time the examiner knits the Rmd file, execution of the R scripts will happen in the background. For a quicker review, please check the html files. 
 <br /><br />
-Link to public URL: <a href="https://sites.google.com/view/malga/"> Link</a>. 
+Link to public URL: <a href="https://sites.google.com/view/malga/"> Link</a>.<br />
+Link to the video: <a href="https://www.youtube.com/watch?v=l3i9beb1KXM"> Link </a>.

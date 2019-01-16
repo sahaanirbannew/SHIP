@@ -24,4 +24,6 @@ It has 4308 rows and 400 columns; the target variable being liver fat. It has 57
 We’ve used this dataset to explore various functionalities of R and R packages, learning the different phases of data science in detail and acquiring skills of handling data, modelling and visualising it using the R programming language. 
 
 <br />
+<br />
+In the next section "Exploratory Data Analysis", we would learn more about the data and in the sextion next, "Models", we would implement the models and proceed with the analysis in the final section. 
 
